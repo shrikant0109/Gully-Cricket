@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#07100b">
+  <title>Gully Cricket Pro Scorer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Gully Cricket home">
+      <span class="brand-mark">🏏</span>
+      <span><b>GULLY CRICKET</b><small>PRO SCORER</small></span>
+    </a>
+    <button class="small-green" id="headerStart">Start Match</button>
+  </header>
+
+  <main>
+    <section class="hero" id="homePanel">
+      <div class="eyebrow">THE ULTIMATE SCORER</div>
+      <h1>SCORE EVERY <span>BALL.</span></h1>
+      <p>Professional-grade digital scoring for gully matches, club tournaments, and weekend warriors.</p>
+      <button class="primary big" id="newMatchBtn">＋ NEW MATCH</button>
+    </section>
+
+    <section class="setup-card hidden" id="setupPanel">
+      <div class="setup-icon">⚔</div>
+      <h2>NEW MATCH SETUP</h2>
+      <p class="muted">Enter both teams, set overs and conduct the toss.</p>
+      <div class="form-grid">
+        <label>TEAM 1 NAME<input id="teamAInput" value="Team A" maxlength="24"></label>
+        <label>TEAM 2 NAME<input id="teamBInput" value="Team B" maxlength="24"></label>
+      </div>
+      <label>TOTAL OVERS<input id="oversInput" type="number" min="1" max="50" value="5"></label>
+      <button class="primary full" id="createMatchBtn">CONTINUE TO TOSS</button>
+      <button class="text-button" id="cancelSetup">Cancel</button>
+    </section>
+
+    <section class="setup-card hidden" id="tossPanel">
+      <div class="setup-icon">🪙</div>
+      <h2>THE TOSS</h2>
+      <p class="muted">Choose which team calls the toss, then flip the coin.</p>
+      <label>TEAM CALLING THE TOSS
+        <select id="tossTeam"></select>
+      </label>
+      <div class="coin-choice">
+        <button class="coin-button selected" data-call="Heads">HEADS</button>
+        <button class="coin-button" data-call="Tails">TAILS</button>
+      </div>
+      <div class="coin-result" id="coinResult">🪙</div>
+      <button class="primary full" id="flipCoinBtn">FLIP COIN</button>
+      <div class="hidden" id="tossDecision">
+        <p id="tossWinnerText" class="success-text"></p>
+        <p class="muted">Choose what the toss winner wants to do:</p>
+        <div class="form-grid">
+          <button class="secondary" id="chooseBat">BAT FIRST</button>
+          <button class="secondary" id="chooseBowl">BOWL FIRST</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="matchPanel" class="hidden">
+      <div class="teams-strip">
+        <strong id="teamAName">TEAM A</strong><span class="vs">VS</span><strong id="teamBName">TEAM B</strong>
+      </div>
+
+      <section class="score-card">
+        <div class="innings-pill"><i></i><span id="inningsLabel">TEAM A BATTING · INNINGS 1</span></div>
+        <div class="score-line"><span id="runs">0</span><span class="dash">-</span><span id="wickets">0</span></div>
+        <div class="stats-row">
+          <div><small>OVERS</small><b><span id="overs">0.0</span><em id="oversLimit">/ 5</em></b></div>
+          <div><small>RUN RATE</small><b id="runRate">0.0</b></div>
+          <div id="targetBox" class="hidden"><small>TARGET</small><b class="target" id="target">—</b></div>
+        </div>
+        <p id="matchStatus" class="match-status"></p>
+      </section>
+
+      <section class="this-over">
+        <div class="over-total"><small>THIS OVER</small><b id="thisOverRuns">0</b><small>RUNS</small></div>
+        <div id="currentBalls" class="ball-list"><span class="ball-chip">—</span></div>
+        <div class="wide-counter" id="wideCounter">WIDES 0/3</div>
+      </section>
+
+      <section class="scoring-panel">
+        <div class="score-buttons">
+          <button data-action="run" data-value="0">0</button>
+          <button data-action="run" data-value="1">1</button>
+          <button data-action="run" data-value="2">2</button>
+          <button data-action="run" data-value="3">3</button>
+          <button class="four" data-action="run" data-value="4">4</button>
+          <button class="six" data-action="run" data-value="6">6</button>
+          <button class="wicket" data-action="wicket">W</button>
+          <button class="wide" data-action="wide">WD</button>
+          <button class="noball" data-action="noball">NB</button>
+          <button data-action="bye">BYE</button>
+          <button data-action="legbye">LB</button>
+        </div>
+        <button class="undo" id="undoBtn">↶ &nbsp; UNDO LAST BALL</button>
+      </section>
+
+      <section class="history-section">
+        <div class="section-heading"><h3>OVERS HISTORY</h3><span id="deliveryCount"></span></div>
+        <div id="oversHistory" class="overs-history"><p class="empty">Ball-by-ball history will appear here.</p></div>
+      </section>
+      <div class="match-actions">
+        <button class="secondary" id="endInningsBtn">END INNINGS</button>
+        <button class="danger-outline" id="finishMatchBtn">FINISH MATCH</button>
+        <button class="text-button" id="backHomeBtn">HOME</button>
+      </div>
+    </section>
+
+    <section class="history-home" id="historyHome">
+      <h3>🏆 &nbsp; MATCH HISTORY</h3>
+      <div id="savedMatches" class="saved-grid"><p class="empty">Your saved matches will appear here.</p></div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js"></script>
+
+</body>
+</html>
